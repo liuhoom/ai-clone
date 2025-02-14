@@ -1,5 +1,6 @@
 'use client'
 
+import { Navbar } from '@/components/navbar'
 import { Sidebar } from '@/components/sidebar'
 
 export default function ComponentName({
@@ -13,7 +14,10 @@ export default function ComponentName({
         <Sidebar />
       </div>
 
-      <div className='md:pl-72'>{children}</div>
+      <div className='md:pl-72'>
+        <Navbar />
+        {children}
+      </div>
     </div>
   )
 }
