@@ -9,7 +9,7 @@ export default function ComponentName({
 }) {
   return (
     <div className='h-full relative'>
-      <div className='hidden bg-gray-900 h-full md:flex md:flex-col md:w-72 md:fixed'>
+      <div className='hidden bg-gray-900 h-full md:flex md:flex-col md:w-72 md:fixed inset-y-0'>
         <Sidebar />
       </div>
 

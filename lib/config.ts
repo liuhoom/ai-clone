@@ -1,10 +1,10 @@
-import { Code, LayoutDashboard, MessagesSquare, Settings } from 'lucide-react'
+import { Code, LayoutDashboard, MessageSquare, Settings } from 'lucide-react'
 
 const AITools = [
   {
     name: 'Conversation',
     href: '/conversation',
-    icon: MessagesSquare,
+    icon: MessageSquare,
     color: 'text-violet-500',
     bgColor: 'bg-violet-500/10',
   },
@@ -15,7 +15,7 @@ const AITools = [
     bgColor: 'bg-green-700/10',
     href: '/code',
   },
-]
+] as const
 
 const SidebarTools = [
   {
@@ -31,6 +31,6 @@ const SidebarTools = [
     icon: Settings,
     color: '',
   },
-]
+] as const
 
 export { AITools, SidebarTools }
