@@ -1,11 +1,15 @@
 'use client'
 
-import { Card } from '@/components/ui/card'
-import { AITools } from '@/lib/config'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+
+import { AITools } from '@/lib/config'
 
 export default function DashboardPage() {
+  const router = useRouter()
+
   return (
     <div className='h-full'>
       <div className='text-center space-y-4 mb-8'>
@@ -22,7 +26,8 @@ export default function DashboardPage() {
         {AITools.map((item) => (
           <Card
             key={item.name}
-            className='p-4 flex items-center gap-x-4 cursor-pointer shadow-sm hover:shadow-md transition border-black/5'
+            className='p-4 flex items-center gap-x-4 cursor-pointer shadow-sm hover:shadow-md transition border-black/5 rounded-lg'
+            onClick={() => router.push(item.href)}
           >
             <div className={cn('p-2 w-fit rounded-md', item.bgColor)}>
               <item.icon className={cn('h-8 w-8', item.color)} />
