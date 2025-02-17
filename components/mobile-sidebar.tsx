@@ -2,7 +2,7 @@
 
 import { Menu } from 'lucide-react'
 import { Sidebar } from '@/components/sidebar'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 
 export function MobileSidebar() {
