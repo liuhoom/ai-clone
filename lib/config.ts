@@ -1,5 +1,9 @@
 import { Code, LayoutDashboard, MessageSquare, Settings } from 'lucide-react'
 
+const userid = '1234'
+const useCount = 1
+const MAX_FREE_COUNT = 5
+
 const AITools = [
   {
     name: 'Conversation',
@@ -33,4 +37,4 @@ const SidebarTools = [
   },
 ] as const
 
-export { AITools, SidebarTools }
+export { AITools, SidebarTools, userid, useCount, MAX_FREE_COUNT }

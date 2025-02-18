@@ -1,12 +1,12 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { OpenAI } from 'openai'
 
+import { userid } from '@/lib/config'
+
 const openai = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
 })
-
-const userid = '123'
 
 export async function POST(req: NextRequest) {
   try {

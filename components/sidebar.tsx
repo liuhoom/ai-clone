@@ -4,11 +4,18 @@ import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import {
+  Code,
+  LayoutDashboard,
+  MessageSquare,
+  Settings,
+} from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
 // import { SidebarTools } from '@/lib/config'
-import { Code, LayoutDashboard, MessageSquare, Settings } from 'lucide-react'
+
+import { FreeCounter } from './free-counter'
 
 const AITools = [
   {
@@ -81,7 +88,9 @@ export function Sidebar() {
       </div>
 
       {/* pro */}
-      <div className='px-6'>isPro</div>
+      <div className='px-3 py-4'>
+        <FreeCounter />
+      </div>
     </div>
   )
 }

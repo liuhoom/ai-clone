@@ -92,7 +92,12 @@ export default function ConversationPage() {
               )}
             />
 
-            <Button size='lg' className='col-span-12 md:col-span-2'>
+            <Button
+              size='lg'
+              className='col-span-12 md:col-span-2'
+              disabled={isLoading}
+              aria-disabled={isLoading}
+            >
               Generate
             </Button>
           </form>
