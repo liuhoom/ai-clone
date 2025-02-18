@@ -6,12 +6,14 @@ import { useState } from 'react'
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 
 import { Heading } from '@/components/heading'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormField, FormControl, FormItem } from '@/components/ui/form'
 
+import { cn } from '@/lib/utils'
 import { Loading } from '@/components/loading'
 import { Empty } from '@/components/empty'
 
@@ -33,6 +35,27 @@ export default function ConversationPage() {
 
   const isLoading = form.formState.isSubmitting
 
+  const onSubmit = async (values: z.infer<typeof conversationFromSchema>) => {
+    try {
+      const userMessage: ChatCompletionMessageParam = {
+        role: 'user',
+        content: values.prompt,
+      }
+
+      const newMessages = [...messages, userMessage]
+
+      const response = await axios.post('/api/conversation', {
+        messages: newMessages,
+      })
+
+      setMessages((msg) => [...msg, userMessage, response.data])
+
+      console.log(newMessages)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='px-4 lg:px-8'>
       <Heading
@@ -49,7 +72,7 @@ export default function ConversationPage() {
             className='py-4 px-3 md:px-6 grid grid-cols-12 w-full border rounded-lg gap-2 items-center'
             autoComplete='off'
             autoCapitalize='off'
-            // onSubmit={form.handleSubmit()}
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
               name='prompt'
@@ -80,7 +103,31 @@ export default function ConversationPage() {
       {isLoading && <Loading />}
 
       {/* Empty */}
-      {messages.length === 0 && true && <Empty />}
+      {messages.length === 0 && !isLoading && <Empty />}
+
+      {/* content area */}
+      <div className='gap-y-4 flex flex-col-reverse mt-4'>
+        {messages.map((message, i) => (
+          <div
+            className={cn(
+              'p-4 w-full flex rounded-lg gap-x-4 items-center',
+              message.role === 'user'
+                ? 'bg-white border border-black/10'
+                : 'bg-muted'
+            )}
+            key={i}
+          >
+            <div
+              className={cn(
+                'p-4 w-fit rounded-full',
+                message.role === 'user' ? 'bg-blue-400' : 'bg-red-400'
+              )}
+            />
+
+            <p className='text-sm'>{message.content}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
