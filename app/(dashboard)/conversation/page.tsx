@@ -16,6 +16,7 @@ import { Form, FormField, FormControl, FormItem } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import { Loading } from '@/components/loading'
 import { Empty } from '@/components/empty'
+import { useRouter } from 'next/navigation'
 
 const conversationFromSchema = z.object({
   prompt: z.string().min(1, {
@@ -25,6 +26,7 @@ const conversationFromSchema = z.object({
 
 export default function ConversationPage() {
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof conversationFromSchema>>({
     resolver: zodResolver(conversationFromSchema),
@@ -53,6 +55,9 @@ export default function ConversationPage() {
       console.log(newMessages)
     } catch (error) {
       console.log(error)
+    } finally {
+      form.reset()
+      router.refresh()
     }
   }
 
