@@ -59,7 +59,7 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className='flex text-white flex-col h-full'>
+    <div className='flex text-white flex-col h-full bg-[#111827]'>
       {/* header */}
       <Link href='/dashboard' className='flex items-center gap-x-4 p-6'>
         <Image src='/logo.png' alt='logo' height={32} width={32} />
