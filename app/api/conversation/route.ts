@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { OpenAI } from 'openai'
 
 import { userid } from '@/lib/config'
+import { increaseApiLimit } from '@/lib/api-limit'
 
 const openai = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
@@ -30,6 +31,8 @@ export async function POST(req: NextRequest) {
       // model: 'qwen-plus',
       messages,
     })
+
+    await increaseApiLimit()
 
     return new NextResponse(JSON.stringify(response.choices[0].message), {
       status: 200,

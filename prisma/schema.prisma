@@ -12,3 +12,11 @@ datasource db {
   provider = "sqlite"
   url      = "file:./prod.db"
 }
+
+model UserApiLimit {
+  id          String  @id   @default(cuid())
+  userId      String  @unique
+  count       Int     @default(0)
+  createAt    DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
