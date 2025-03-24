@@ -134,7 +134,7 @@ export default function ConversationPage() {
               )}
             />
 
-            <p className='text-sm'>{message.content}</p>
+            <p className='text-sm'>{message.content as unknown as string}</p>
           </div>
         ))}
       </div>
