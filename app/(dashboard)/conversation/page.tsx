@@ -133,7 +133,6 @@ export default function ConversationPage() {
                 message.role === 'user' ? 'bg-blue-400' : 'bg-red-400'
               )}
             />
-
             <p className='text-sm'>
               {message.content as unknown as React.ReactNode}
             </p>
