@@ -134,7 +134,9 @@ export default function ConversationPage() {
               )}
             />
 
-            <p className='text-sm'>{message.content}</p>
+            <p className='text-sm'>
+              {message.content as unknown as React.ReactNode}
+            </p>
           </div>
         ))}
       </div>
