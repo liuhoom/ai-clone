@@ -16,6 +16,8 @@
 # next.js
 /.next/
 /out/
+/dist/
+/.vscode/
 
 # production
 /build
@@ -41,3 +43,6 @@ pnpm-lock.yaml
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# clerk configuration (can include secrets)
+/.clerk/
