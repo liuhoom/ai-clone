@@ -4,12 +4,7 @@ import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  Code,
-  LayoutDashboard,
-  MessageSquare,
-  Settings,
-} from 'lucide-react'
+import { Code, LayoutDashboard, MessageSquare, Settings } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -55,7 +50,12 @@ const inter = Montserrat({
   subsets: ['latin'],
 })
 
-export function Sidebar() {
+type sidebarProps = {
+  apiLimitCount: number
+  isPro: boolean
+}
+
+export function Sidebar({ isPro = false, apiLimitCount = 0 }: sidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -89,7 +89,7 @@ export function Sidebar() {
 
       {/* pro */}
       <div className='px-3 py-4'>
-        <FreeCounter />
+        <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
       </div>
     </div>
   )

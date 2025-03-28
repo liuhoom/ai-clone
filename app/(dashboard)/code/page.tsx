@@ -12,6 +12,7 @@ import { Heading } from '@/components/heading'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormField, FormControl, FormItem } from '@/components/ui/form'
+import UserAvatar from '@/components/user-avatar'
 
 import { cn } from '@/lib/utils'
 import { Loading } from '@/components/loading'
@@ -24,7 +25,7 @@ const codeFromSchema = z.object({
   }),
 })
 
-export default function ConversationPage() {
+export default function CodePage() {
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
   const router = useRouter()
 
@@ -134,6 +135,7 @@ export default function ConversationPage() {
               )}
             />
 
+            {message.role === 'user' ? <UserAvatar /> : 'bg-red-400'}
             <p className='text-sm'>
               {message.content as unknown as React.ReactNode}
             </p>

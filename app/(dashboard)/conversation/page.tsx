@@ -17,6 +17,9 @@ import { cn } from '@/lib/utils'
 import { Loading } from '@/components/loading'
 import { Empty } from '@/components/empty'
 import { useRouter } from 'next/navigation'
+import UserAvatar from '@/components/user-avatar'
+import { useProModal } from '@/hooks/use-pro-modal'
+import { toast } from 'sonner'
 
 const conversationFromSchema = z.object({
   prompt: z.string().min(1, {
@@ -25,8 +28,9 @@ const conversationFromSchema = z.object({
 })
 
 export default function ConversationPage() {
-  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
+  const proModal = useProModal()
   const router = useRouter()
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
 
   const form = useForm<z.infer<typeof conversationFromSchema>>({
     resolver: zodResolver(conversationFromSchema),
@@ -54,7 +58,9 @@ export default function ConversationPage() {
 
       console.log(newMessages)
     } catch (error) {
-      console.log(error)
+      // if (axios.isAxiosError(error) && error?.response?.status === 403) proModal.onOpen()
+      if (true) proModal.onOpen()
+      else toast.error('Something went wrong.' + error)
     } finally {
       form.reset()
       router.refresh()
@@ -127,12 +133,12 @@ export default function ConversationPage() {
             )}
             key={i}
           >
-            <div
-              className={cn(
-                'p-4 w-fit rounded-full',
-                message.role === 'user' ? 'bg-blue-400' : 'bg-red-400'
-              )}
-            />
+            {message.role === 'user' ? (
+              <UserAvatar />
+            ) : (
+              <div className='p-4 w-fit rounded-full bg-red-400' />
+            )}
+
             <p className='text-sm'>
               {message.content as unknown as React.ReactNode}
             </p>

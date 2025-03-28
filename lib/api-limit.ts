@@ -1,7 +1,9 @@
-import { userid as userId } from '@/lib/config'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 
 const increaseApiLimit = async () => {
+  const { userId } = await auth()
+
   if (!userId) return
 
   const userApiLimit = await db.userApiLimit.findUnique({
@@ -30,6 +32,7 @@ const increaseApiLimit = async () => {
 }
 
 const getUserApiLimit = async () => {
+  const { userId } = await auth()
   if (!userId) return 0
 
   const userApiLimit = await db.userApiLimit.findUnique({
@@ -40,7 +43,5 @@ const getUserApiLimit = async () => {
 
   return userApiLimit?.count || 0
 }
-
-// const
 
 export { increaseApiLimit, getUserApiLimit }
