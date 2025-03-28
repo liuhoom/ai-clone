@@ -6,7 +6,14 @@ import { Sidebar } from '@/components/sidebar'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 
-export function MobileSidebar() {
+type MobileSidebarProps = {
+  apiLimitCount: number
+  isPro: boolean
+}
+export function MobileSidebar({
+  apiLimitCount = 0,
+  isPro = false,
+}: MobileSidebarProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -16,7 +23,7 @@ export function MobileSidebar() {
       </SheetTrigger>
 
       <SheetContent side='left' className='p-0 text-white'>
-        <Sidebar />
+        <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       </SheetContent>
     </Sheet>
   )

@@ -1,8 +1,9 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { OpenAI } from 'openai'
+import { auth } from '@clerk/nextjs/server'
 
-import { userid } from '@/lib/config'
-import { increaseApiLimit } from '@/lib/api-limit'
+import { checkApiLimit, increaseApiLimit } from '@/lib/api-limit'
+import { checkSubscription } from '@/lib/subscription'
 
 const openai = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
@@ -14,7 +15,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { messages } = body
 
-    if (!userid) {
+    const { userId } = await auth()
+
+    if (!userId) {
       return new NextResponse('Unauthorized.', { status: 401 })
     }
 
@@ -26,13 +29,39 @@ export async function POST(req: NextRequest) {
       return new NextResponse('Messages are required.', { status: 400 })
     }
 
-    const response = await openai.chat.completions.create({
-      model: 'deepseek-v3',
-      // model: 'qwen-plus',
-      messages,
-    })
+    const isPro = await checkSubscription()
+    const freeTrial = await checkApiLimit()
 
-    await increaseApiLimit()
+    if (!isPro && !freeTrial) {
+      return new NextResponse('Free trial has expired.', { status: 403 })
+    }
+
+    // const response = await openai.chat.completions.create({
+    //   model: 'deepseek-v3',
+    //   // model: 'qwen-plus',
+    //   messages,
+    // })
+
+    // console.log(response)
+
+    const response = {
+      choices: [
+        {
+          message: [Object],
+          finish_reason: 'stop',
+          index: 0,
+          logprobs: null,
+        },
+      ],
+      object: 'chat.completion',
+      usage: { prompt_tokens: 5, completion_tokens: 14, total_tokens: 19 },
+      created: 1743151767,
+      system_fingerprint: null,
+      model: 'deepseek-v3',
+      id: 'chatcmpl-941683e1-1310-96ea-b90a-1cf806c18e74',
+    }
+
+    if (!isPro) await increaseApiLimit()
 
     return new NextResponse(JSON.stringify(response.choices[0].message), {
       status: 200,
