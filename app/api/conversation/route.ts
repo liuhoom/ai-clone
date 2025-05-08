@@ -36,30 +36,30 @@ export async function POST(req: NextRequest) {
       return new NextResponse('Free trial has expired.', { status: 403 })
     }
 
-    // const response = await openai.chat.completions.create({
-    //   model: 'deepseek-v3',
-    //   // model: 'qwen-plus',
-    //   messages,
-    // })
-
-    // console.log(response)
-
-    const response = {
-      choices: [
-        {
-          message: [Object],
-          finish_reason: 'stop',
-          index: 0,
-          logprobs: null,
-        },
-      ],
-      object: 'chat.completion',
-      usage: { prompt_tokens: 5, completion_tokens: 14, total_tokens: 19 },
-      created: 1743151767,
-      system_fingerprint: null,
+    const response = await openai.chat.completions.create({
       model: 'deepseek-v3',
-      id: 'chatcmpl-941683e1-1310-96ea-b90a-1cf806c18e74',
-    }
+      // model: 'qwen-plus',
+      messages,
+    })
+
+    console.log(response)
+
+    // const response = {
+    //   choices: [
+    //     {
+    //       message: [Object],
+    //       finish_reason: 'stop',
+    //       index: 0,
+    //       logprobs: null,
+    //     },
+    //   ],
+    //   object: 'chat.completion',
+    //   usage: { prompt_tokens: 5, completion_tokens: 14, total_tokens: 19 },
+    //   created: 1743151767,
+    //   system_fingerprint: null,
+    //   model: 'deepseek-v3',
+    //   id: 'chatcmpl-941683e1-1310-96ea-b90a-1cf806c18e74',
+    // }
 
     if (!isPro) await increaseApiLimit()
 
